@@ -59,6 +59,7 @@ public class main {
 
 
         JLabel label2 =new JLabel("Introduzca la ruta donde se creara el archivo:");
+        label2.setFont(label2.getFont().deriveFont((float) 20));
         JLabel label3 =new JLabel("Introduzca el nombre del archivo:");
         JLabel label5 =new JLabel("Nombre del archivo:");
         JLabel label6 =new JLabel("Tamaño del archivo:");
@@ -190,6 +191,7 @@ public class main {
                 panel4.setLayout(new FlowLayout(FlowLayout.CENTER));
 
                 JLabel label1 =new JLabel("Escoja la acción que desee realizar");
+                label1.setFont(label1.getFont().deriveFont((float) 20));
 
                 JButton boton1 = new JButton("Realizar acción");
                 boton1.setPreferredSize(new Dimension(130,30));
@@ -228,6 +230,68 @@ public class main {
                 panel1.add(radioButton6);
 
                 marco3.setVisible(true);
+
+                JOptionPane optionPane = new JOptionPane();
+                boton1.addActionListener( new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+
+                        if (radioButton1.isSelected()) {
+
+                            JFrame marco2 = new JFrame("Practica GUI");
+                            marco2.setSize(600, 400);
+                            marco2.setResizable(false);
+                            marco2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            marco2.setLayout(new BorderLayout());
+                            marco2.setLocationRelativeTo(null);
+
+                            JPanel panel1 = new JPanel();
+                            JPanel panel2 = new JPanel();
+                            JPanel panel3 = new JPanel();
+
+                            panel1.setLayout(new FlowLayout(FlowLayout.CENTER));
+                            panel2.setLayout(new FlowLayout(FlowLayout.CENTER));
+                            panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+                            JLabel label1 =new JLabel("Escribir en el fichero");
+                            JTextArea textArea1 = new JTextArea("Escriba aquí si deséa introducir texto en el fichero creado");
+                            textArea1.setPreferredSize(new Dimension(500,250));
+
+                            JButton boton1 = new JButton("Introducir Texto");
+                            JButton boton2 = new JButton("Dejar fichero en blanco");
+
+                            boton1.setPreferredSize(new Dimension(130,30));
+                            boton2.setPreferredSize(new Dimension(160,30));
+
+                            marco2.add(panel1,BorderLayout.NORTH);
+                            panel1.add(label1);
+
+                            marco2.add(panel2,BorderLayout.CENTER);
+                            panel2.add(textArea1);
+
+                            marco2.add(panel3,BorderLayout.SOUTH);
+                            panel3.add(boton1);
+                            panel3.add(boton2);
+
+                            marco2.setVisible(true);
+                        }
+                        if (radioButton2.isSelected()) {
+                            optionPane.showMessageDialog(null, null, "message", JOptionPane.PLAIN_MESSAGE);
+
+                        }
+                        if (radioButton3.isSelected()) {
+                            optionPane.showMessageDialog(null, null, "message", JOptionPane.PLAIN_MESSAGE);
+                        }
+                        if (radioButton4.isSelected()) {
+
+                        }
+                        if (radioButton5.isSelected()) {
+
+                        }
+                        if (radioButton6.isSelected()) {
+
+                        }
+                    }
+                });
             }
 
         });
