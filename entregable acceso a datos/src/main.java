@@ -62,11 +62,33 @@ public class main {
 
         JLabel label2 =new JLabel("Introduzca la ruta donde se creara el archivo:");
         label2.setFont(label2.getFont().deriveFont((float) 20));
+
+        JFileChooser fc = new JFileChooser();
+
         JLabel label3 =new JLabel("Introduzca el nombre del archivo:");
         JLabel label5 =new JLabel("Nombre del archivo:");
         JLabel label6 =new JLabel("Tamaño del archivo:");
-        JLabel label7 =new JLabel("Extensión del archivo:           ");
-        JLabel label8 =new JLabel("Tipo de archivo:");
+        JLabel label7 =new JLabel("Extensión del archivo:             ");
+        JLabel label8 =new JLabel("Ultima modificación del archivo:");
+
+        final String[] a = {""};
+
+        fc.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                File file3 = new File(String.valueOf(fc.getSelectedFile()));
+                String [] g= file3.getName().split("\\.");
+
+
+                label5.setText("Nombre del archivo: "+file3.getName());
+                label6.setText("Tamaño del archivo: "+(file3.length()/(Math.pow(10,3))+" KB"));
+                label7.setText("Extensión del archivo: "+g[g.length-1]);
+                String [] h= file3.getParent().split("\\\\");
+                label8.setText("Esta en el directorio: "+h[h.length-1]);
+
+            }
+        });
 
         JTextField textField2 = new JTextField(20);
         JButton boton1 = new JButton("Crear");
@@ -99,7 +121,7 @@ public class main {
 
         tabbedPane1.addTab("Modificar fichero", panel2);
 
-        JFileChooser fc = new JFileChooser();
+
 
         panel2.add(fc);
 
@@ -113,11 +135,11 @@ public class main {
         panel11.setBorder(new EmptyBorder(0,90,0,0));
 
         panel9.add(panel12);
-        panel12.add(label7);
+        panel12.add(label8);
         panel12.setBorder(new EmptyBorder(0,80,0,0));
 
         panel9.add(panel13);
-        panel13.add(label8);
+        panel13.add(label7);
         panel13.setBorder(new EmptyBorder(0,90,0,0));
 
 
@@ -198,6 +220,7 @@ public class main {
         boton2.addActionListener( new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                System.out.println(a[0]);
                 if(fc.getSelectedFile()== null){
                     optionPane.showMessageDialog(null, "No a seleccionado un archivo", "Archivo no encontrado", JOptionPane.WARNING_MESSAGE);
 
