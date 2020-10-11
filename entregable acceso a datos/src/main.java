@@ -6,13 +6,12 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.EventListener;
 
 public class main {
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        JFrame marco = new JFrame("Practica GUI");
+        JFrame marco = new JFrame("Programa manejo de ficheros");
         marco.setSize(650, 650);
         marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         marco.setLayout(new BorderLayout());
@@ -342,7 +341,39 @@ public class main {
 
                             }
                             if (radioButton3.isSelected()) {
-                                optionPane.showMessageDialog(null, null, "message", JOptionPane.PLAIN_MESSAGE);
+
+                                try {
+                                    FileReader leerfich = new FileReader(file2);
+                                    BufferedReader bfr = new BufferedReader(leerfich);
+
+                                    String g =bfr.readLine();
+                                    String tfich="";
+                                    while(g!=null){
+                                        tfich= tfich+g+"\n";
+                                        g =bfr.readLine();
+                                    }
+
+                                    String aux= file2.getAbsolutePath();
+
+                                    String [] j=aux.split("\\.");
+
+                                    FileWriter escribir = new FileWriter(j[0]+"_copia."+j[1],true);
+                                    BufferedWriter bf = new BufferedWriter(escribir);
+                                    bf.write(tfich);
+
+                                    bf.flush();
+
+                                    leerfich.close();
+                                    escribir.close();
+                                    optionPane.showMessageDialog(null, "Fichero copiado", "Acción realizada", JOptionPane.INFORMATION_MESSAGE);
+
+                                }  catch (IOException ioException) {
+                                    ioException.printStackTrace();
+
+                                    optionPane.showMessageDialog(null, "El fichero no se ha podido copiar", "Acción no realizada", JOptionPane.ERROR_MESSAGE);
+
+                                }
+
                             }
                             if (radioButton4.isSelected()) {
 
@@ -351,6 +382,60 @@ public class main {
 
                             }
                             if (radioButton6.isSelected()) {
+
+                                try {
+                                    FileReader leerfich = new FileReader(file2);
+                                    BufferedReader bfr = new BufferedReader(leerfich);
+
+
+                                    String g =bfr.readLine();
+                                    String tfich="";
+                                    while(g!=null){
+                                        String [] listPalabras=g.split(" ");
+                                        for(int i=0; i<listPalabras.length;i++){
+
+                                            if(listPalabras[i].length()>4){
+                                                String palabraCifrada = Character.toString(listPalabras[i].charAt(0));
+
+                                                for(int z=listPalabras[i].length()-2;z>0;z--) {
+
+                                                    palabraCifrada = palabraCifrada+listPalabras[i].charAt(z);
+
+                                                }
+
+
+                                                palabraCifrada = palabraCifrada+listPalabras[i].charAt(listPalabras[i].length()-1);
+                                                listPalabras[i]= palabraCifrada;
+                                            }
+
+                                        }
+                                        for(int i=0;i<listPalabras.length;i++){
+                                            tfich=tfich+listPalabras[i]+" ";
+                                        }
+                                        tfich= tfich+"\n";
+                                        g =bfr.readLine();
+                                    }
+
+                                    String aux= file2.getAbsolutePath();
+
+                                    String [] j=aux.split("\\.");
+
+
+                                    FileWriter escribir = new FileWriter(j[0]+"_Cifrado."+j[1],true);
+                                    BufferedWriter bf = new BufferedWriter(escribir);
+                                    bf.write(tfich);
+                                    bf.flush();
+
+                                    leerfich.close();
+                                    escribir.close();
+                                    optionPane.showMessageDialog(null, "Fichero cifrado", "Acción realizada", JOptionPane.INFORMATION_MESSAGE);
+
+                                } catch (IOException ioException) {
+                                    ioException.printStackTrace();
+                                    optionPane.showMessageDialog(null, "No se ha podido cifrar el archivo", "Acción no realizada", JOptionPane.ERROR_MESSAGE);
+
+                                }
+
 
                             }
                         }
