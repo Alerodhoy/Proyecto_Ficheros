@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
+import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import java.io.*;
 import java.util.EventListener;
+import java.util.Scanner;
 
 public class main {
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
@@ -165,7 +163,7 @@ public class main {
                         try {
                             file.createNewFile();
 
-                            JFrame marco2 = new JFrame("Practica GUI");
+                            JFrame marco2 = new JFrame("Insertar texto");
                             marco2.setSize(600, 400);
                             marco2.setResizable(false);
                             marco2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -199,6 +197,64 @@ public class main {
                             marco2.add(panel3,BorderLayout.SOUTH);
                             panel3.add(boton1);
                             panel3.add(boton2);
+
+
+
+                            textArea1.addMouseListener(new MouseListener() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+
+                                }
+
+                                @Override
+                                public void mousePressed(MouseEvent e) {
+                                    textArea1.setText("");
+                                }
+
+                                @Override
+                                public void mouseReleased(MouseEvent e) {
+
+                                }
+
+                                @Override
+                                public void mouseEntered(MouseEvent e) {
+
+                                }
+
+                                @Override
+                                public void mouseExited(MouseEvent e) {
+
+                                }
+                            });
+
+                            boton1.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    String textointr = textArea1.getText();
+
+                                    FileWriter escribe = null;
+                                    try {
+                                        escribe = new FileWriter(file);
+                                        BufferedWriter bf = new BufferedWriter(escribe);
+                                        bf.write(textointr);
+                                        bf.flush();
+                                        escribe.close();
+                                        optionPane.showMessageDialog(null, "Se ha escrito en el archivo", "Archivo escrito", JOptionPane.INFORMATION_MESSAGE);
+
+
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                }
+                            });
+
+                            boton2.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    marco2.setVisible(false);
+                                }
+                            });
+
 
                             marco2.setVisible(true);
 
@@ -291,7 +347,7 @@ public class main {
 
                             if (radioButton1.isSelected()) {
 
-                                JFrame marco2 = new JFrame("Practica GUI");
+                                JFrame marco2 = new JFrame("Modificar archivo");
                                 marco2.setSize(600, 400);
                                 marco2.setResizable(false);
                                 marco2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -307,11 +363,11 @@ public class main {
                                 panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
 
                                 JLabel label1 = new JLabel("Escribir en el fichero");
-                                JTextArea textArea1 = new JTextArea("Escriba aquí si deséa introducir texto en el fichero creado");
+                                JTextArea textArea1 = new JTextArea("");
                                 textArea1.setPreferredSize(new Dimension(500, 250));
 
-                                JButton boton1 = new JButton("Introducir Texto");
-                                JButton boton2 = new JButton("Dejar fichero en blanco");
+                                JButton boton1 = new JButton("Modificar texto");
+                                JButton boton2 = new JButton("No modificar el fichero");
 
                                 boton1.setPreferredSize(new Dimension(130, 30));
                                 boton2.setPreferredSize(new Dimension(160, 30));
@@ -325,6 +381,43 @@ public class main {
                                 marco2.add(panel3, BorderLayout.SOUTH);
                                 panel3.add(boton1);
                                 panel3.add(boton2);
+
+                                try {
+                                    FileReader fr = new FileReader(file2);
+                                    BufferedReader bfr = new BufferedReader(fr);
+                                    String o = bfr.readLine();
+                                    String tfich="";
+                                    while(o!=null){
+                                        tfich= tfich+o+"\n";
+                                        o =bfr.readLine();
+                                    }
+                                    textArea1.setText(tfich);
+
+                                    boton1.addActionListener(new ActionListener() {
+                                        @Override
+                                        public void actionPerformed(ActionEvent e) {
+                                            String modif = textArea1.getText();
+                                            try {
+                                                FileWriter escribe = new FileWriter(file2);
+                                                BufferedWriter bw = new BufferedWriter(escribe);
+                                                bw.write(modif);
+                                                bw.flush();
+                                                escribe.close();
+                                                optionPane.showMessageDialog(null, "Archivo modificado", "Archivo modificado", JOptionPane.INFORMATION_MESSAGE);
+
+                                            } catch (IOException ioException) {
+                                                ioException.printStackTrace();
+                                            }
+
+                                        }
+                                    });
+                                    fr.close();
+
+
+
+                                } catch (IOException ioException) {
+                                    ioException.printStackTrace();
+                                }
 
                                 marco2.setVisible(true);
                             }
@@ -377,8 +470,78 @@ public class main {
                             }
                             if (radioButton4.isSelected()) {
 
+
+                                try {
+                                    String linea;
+
+                                    FileReader fr = new FileReader(file2);
+
+                                    BufferedReader br = new BufferedReader(fr);
+
+                                    int i, j, a = 0;
+
+                                    while ((linea = br.readLine()) != null) {
+
+                                        for (i = 0; i < linea.length(); i++) {
+                                            if (i == 0) {
+                                                if (linea.charAt(i) != ' ')
+                                                    a++;
+                                            } else {
+                                                if (linea.charAt(i - 1) == ' ')
+                                                    if (linea.charAt(i) != ' ')
+                                                        a++;
+
+                                            }
+                                        }
+                                    }
+                                    optionPane.showMessageDialog(null, "Son " + a + " palabras", "Palabras contadas", JOptionPane.INFORMATION_MESSAGE);
+
+                                    fr.close();
+                                } catch (IOException a) {
+                                    System.out.println(a);
+                                }
+
+
+
                             }
                             if (radioButton5.isSelected()) {
+
+
+
+                                try {
+
+                                    FileReader fr = new FileReader(file2);
+                                    BufferedReader br = new BufferedReader(fr);
+
+
+                                    Scanner input = new Scanner(file2);
+                                    String fileContent = "";
+
+
+                                    while (input.hasNext()) {
+                                        fileContent += input.next() + " ";
+                                    }
+
+                                    input.close();
+
+                                    char[] charArr = fileContent.toCharArray();
+
+                                    int counter = 0;
+                                    for (char c : charArr) {
+                                        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+                                            counter++;
+                                    }
+
+
+                                    optionPane.showMessageDialog(null, "Son " + counter + " Vocales", "Vocales contadas", JOptionPane.INFORMATION_MESSAGE);
+
+                                    fr.close();
+                                } catch (IOException a) {
+                                    optionPane.showMessageDialog(null, "Error al contar las vocales", "Error", JOptionPane.WARNING_MESSAGE);
+                                }
+
+
+
 
                             }
                             if (radioButton6.isSelected()) {
